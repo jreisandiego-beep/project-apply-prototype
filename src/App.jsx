@@ -111,6 +111,8 @@ function App() {
   // Auth Inputs
   const [emailInput, setEmailInput] = useState('');
   const [passwordInput, setPasswordInput] = useState('');
+  const [signupEmailInput, setSignupEmailInput] = useState('');
+  const [signupPasswordInput, setSignupPasswordInput] = useState('');
   const [businessNameInput, setBusinessNameInput] = useState('');
   const [contactNumberInput, setContactNumberInput] = useState('');
   const [businessAddressInput, setBusinessAddressInput] = useState('');
@@ -211,6 +213,8 @@ function App() {
         fetchUserProfile(session.user.id);
         setEmailInput('');
         setPasswordInput('');
+        setSignupEmailInput('');
+        setSignupPasswordInput('');
         setBusinessNameInput('');
         setContactNumberInput('');
         setBusinessAddressInput('');
@@ -307,8 +311,8 @@ function App() {
   const handleSignUp = async (e) => {
     e.preventDefault();
     if (
-      !emailInput.trim() ||
-      !passwordInput.trim() ||
+      !signupEmailInput.trim() ||
+      !signupPasswordInput.trim() ||
       !businessNameInput.trim() ||
       !contactNumberInput.trim() ||
       !businessAddressInput.trim()
@@ -317,15 +321,15 @@ function App() {
     }
 
     const { data, error } = await supabase.auth.signUp({
-      email: emailInput.trim(),
-      password: passwordInput
+      email: signupEmailInput.trim(),
+      password: signupPasswordInput
     });
     if (error) return alert(error.message);
 
     if (data.user) {
       const { error: profileError } = await supabase.from('users').upsert([{
         id: data.user.id,
-        email: emailInput.trim(),
+        email: signupEmailInput.trim(),
         role: 'applicant',
         business_name: businessNameInput.trim(),
         contact_number: contactNumberInput.trim(),
@@ -921,6 +925,22 @@ function App() {
             <form onSubmit={handleSignUp} className="card">
               <h3 style={{ marginTop: 0 }}>Create Applicant Account</h3>
               <input
+                type="email"
+                placeholder="Email Address *"
+                value={signupEmailInput}
+                onChange={e => setSignupEmailInput(e.target.value)}
+                required
+                className="input-field"
+              />
+              <input
+                type="password"
+                placeholder="Password (min. 6 characters) *"
+                value={signupPasswordInput}
+                onChange={e => setSignupPasswordInput(e.target.value)}
+                required
+                className="input-field"
+              />
+              <input
                 type="text"
                 placeholder="Business / Organization Name *"
                 value={businessNameInput}
@@ -947,9 +967,6 @@ function App() {
                 required
                 className="input-field"
               />
-              <p style={{ fontSize: "12px", color: "#64748b", marginTop: 0 }}>
-                * Enter your email and password in the Log In box above first.
-              </p>
               <button type="submit" className="btn btn-setup btn-full">Create Account</button>
             </form>
           </div>
