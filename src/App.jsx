@@ -77,8 +77,32 @@ const CONDITIONAL_DOCS = new Set([
 ]);
 
 const PROGRAM_INFO = {
-  GIA: "Grants-in-Aid (GIA) provides funding for research, development, and technology transfer initiatives that address community or industry needs.",
-  SETUP: "Small Enterprise Technology Upgrading Program (SETUP) assists MSMEs in adopting technological innovations to improve operations and productivity. Applications are accepted year-round."
+  GIA: {
+    summary:
+      "Grants-in-Aid (GIA) funds research and development (R&D), technology transfer, and S&T initiatives aligned with DOST priorities to improve productivity and community welfare.",
+    whatItProvides: [
+      "Project grants supporting R&D, technology transfer, pilot testing, and S&T promotion/linkages (subject to counterpart/equity rules where applicable)",
+      "Support for equipment/facility upgrading or S&T capacity building as approved in the line-item budget"
+    ],
+    whoCanApply: [
+      "SUCs, Higher Education Institutions (HEIs), RDIs, and LGUs with relevant capability and institutional endorsement",
+      "Filipino private entities, NGOs, NPOs, POs, and DOST-accredited science foundations with proven competence and no prior DOST accountabilities",
+      "Projects based in the Philippines for the benefit of Filipinos (R&D project/program leaders generally hold at least an MS degree in a relevant field)"
+    ]
+  },
+  SETUP: {
+    summary:
+      "Small Enterprise Technology Upgrading Program (SETUP) helps MSMEs adopt technological innovations to boost productivity, efficiency, and competitiveness. Applications are accepted year-round.",
+    whatItProvides: [
+      "On-site Technology Needs Assessment (TNA) and technical consultancy/training from DOST personnel and experts",
+      "Technology acquisition / Innovation System Support (ISS) assistance for approved equipment, process upgrades, packaging/labeling, and product testing/standards compliance"
+    ],
+    whoCanApply: [
+      "Wholly Filipino-owned Micro, Small, and Medium Enterprises (MSMEs) operating in the Philippines (typically at least 3 years in operation for standard SETUP assistance)",
+      "Enterprises in priority sectors such as food processing, furniture, gifts/housewares/decors, agriculture/marine/aquaculture, metals & engineering, and ICT",
+      "Businesses willing to adopt technological upgrades and provide required local counterpart/repayment commitments"
+    ]
+  }
 };
 
 function App() {
@@ -751,6 +775,35 @@ function App() {
     );
   };
 
+  const renderProgramDetails = (programKey) => {
+    const info = PROGRAM_INFO[programKey];
+    if (!info) return null;
+
+    return (
+      <div style={{ fontSize: "13.5px", lineHeight: 1.5, color: "#334155" }}>
+        <p style={{ marginTop: 0, marginBottom: "12px", color: "#475569" }}>{info.summary}</p>
+
+        <div style={{ marginBottom: "10px" }}>
+          <strong style={{ color: "#0f172a" }}>Who can apply:</strong>
+          <ul style={{ margin: "6px 0 0 0", paddingLeft: "18px" }}>
+            {info.whoCanApply.map((item) => (
+              <li key={item} style={{ marginBottom: "4px" }}>{item}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <strong style={{ color: "#0f172a" }}>What it provides:</strong>
+          <ul style={{ margin: "6px 0 0 0", paddingLeft: "18px" }}>
+            {info.whatItProvides.map((item) => (
+              <li key={item} style={{ marginBottom: "4px" }}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    );
+  };
+  
   // --- REUSABLE APPLICANT HEADER WITH HAMBURGER MENU (☰) ---
   const renderApplicantHeader = (showBackButton = false) => {
     const displayName = userProfile?.business_name || session?.user?.email;
@@ -847,12 +900,12 @@ function App() {
 
             <div className="card card-gia">
               <h3 style={{ marginTop: 0 }}>1. GIA (Grants-in-Aid)</h3>
-              <p style={{ marginBottom: 0, color: "#475569" }}>{PROGRAM_INFO.GIA}</p>
+              <p style={{ marginBottom: 0, color: "#475569" }}>{renderProgramDetails('GIA')}</p>
             </div>
 
             <div className="card card-setup">
               <h3 style={{ marginTop: 0 }}>2. SETUP</h3>
-              <p style={{ marginBottom: 0, color: "#475569" }}>{PROGRAM_INFO.SETUP}</p>
+              <p style={{ marginBottom: 0, color: "#475569" }}>{renderProgramDetails('SETUP')}</p>
             </div>
           </div>
 
@@ -922,7 +975,7 @@ function App() {
                 Deadline: {giaDeadline?.toLocaleString()}
               </div>
               <h2 style={{ marginTop: 0 }}>GIA</h2>
-              <p style={{ color: "#475569" }}>{PROGRAM_INFO.GIA}</p>
+              <p style={{ color: "#475569" }}>{renderProgramDetails('GIA')}</p>
               <p style={{ fontSize: "13px", color: "#64748b" }}>
                 <strong>Categories:</strong> R&D Project / R&D Program / Non-R&D Project
               </p>
@@ -937,7 +990,7 @@ function App() {
                 2-Phase Process (Pre-Site Visit → Post-Site Visit)
               </div>
               <h2 style={{ marginTop: 0 }}>SETUP</h2>
-              <p style={{ color: "#475569" }}>{PROGRAM_INFO.SETUP}</p>
+              <p style={{ color: "#475569" }}>{renderProgramDetails('SETUP')}</p>
               <p style={{ fontSize: "13px", color: "#64748b" }}>
                 <strong>Process:</strong> Phase 1 Eligibility → Site Visit (TNA) → Phase 2 Proposal
               </p>
