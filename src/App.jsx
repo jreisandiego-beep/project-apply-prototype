@@ -4,9 +4,9 @@ import emailjs from '@emailjs/browser';
 import './App.css';
 
 // --- EMAILJS CONFIGURATION ---
-const EMAILJS_SERVICE_ID = 'service_bnxy16y';
-const EMAILJS_TEMPLATE_ID = 'template_ed1ygjs';
-const EMAILJS_PUBLIC_KEY = '_etK3upeihvX5y5xV';
+const EMAILJS_SERVICE_ID = 'INSERT_HERE';
+const EMAILJS_TEMPLATE_ID = 'INSERT_HERE';
+const EMAILJS_PUBLIC_KEY = 'INSERT_HERE';
 
 // --- GIA REQUIRED DOCUMENTS ---
 const GIA_DOCS_BY_PROJECT_TYPE = {
